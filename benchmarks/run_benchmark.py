@@ -22,7 +22,7 @@ from playground import catalogue, pipeline  # noqa: E402
 
 CATALOGUE_SIZE = 20000
 LOOKUPS = 8000
-REPEATS = 3
+REPEATS = 1  # Artemis repeats the benchmark command itself, so one pass per invocation.
 
 # The pipeline must keep returning these, whatever anyone does to make it
 # faster. If they change, the optimisation broke the behaviour.
@@ -66,11 +66,11 @@ def main():
     total_seconds = sum(durations)
     mean_seconds = total_seconds / len(durations)
 
+    # One measurement per invocation. Artemis repeats this command and does the
+    # statistics across repetitions, so averaging here would only hide variance.
     results = {
-        "total_runtime_ms": round(total_seconds * 1000.0, 3),
-        "mean_run_ms": round(mean_seconds * 1000.0, 3),
-        "p95_run_ms": round(percentile(durations, 0.95) * 1000.0, 3),
-        "lookups_per_second": round((LOOKUPS * REPEATS) / total_seconds, 2),
+        "runtime_ms": round(mean_seconds * 1000.0, 3),
+        "lookups_per_second": round(LOOKUPS / mean_seconds, 2),
         "correctness_ok": correct,
     }
 

@@ -4,26 +4,37 @@ Everything you need to point Artemis at this project.
 
 ---
 
-## 1. Scripts for the Project Settings page
+## 1. Scripts for the "New script" dialog
 
-Open **Project Settings → Runner and Scripts** and paste these three, exactly as written.
+Artemis groups commands as **Setup → Benchmark → Teardown**. Setup runs first,
+in order. Benchmark runs after, and Artemis **repeats it** to get statistics.
 
-### Build command
+**Name**
+```
+Build, test & benchmark
+```
+
+**Setup commands** (add two, in this order)
 ```
 python3 -m compileall -q src benchmarks tests
 ```
-
-### Test command
 ```
 PYTHONPATH=src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest tests -q
 ```
 
-### Benchmark command
+**Benchmark commands** (add one)
 ```
 PYTHONPATH=src python3 -u benchmarks/run_benchmark.py
 ```
 
-All three were verified on this machine and exit `0`.
+**Teardown commands** — leave empty. There is no server to stop and no state to
+clean: every run gets a fresh copy of the repo, which is discarded afterwards.
+
+All commands were verified on this machine and exit `0`.
+
+> Because Artemis repeats the benchmark command, `run_benchmark.py` does
+> **one** pass per invocation. Repeating internally as well would hide the
+> run-to-run variance Artemis is trying to measure.
 
 ### Why they look like that
 
@@ -79,10 +90,8 @@ The benchmark writes `artemis_results.json` to the **project root** before exiti
 
 ```json
 {
-  "total_runtime_ms": 4249.689,
-  "mean_run_ms": 1416.563,
-  "p95_run_ms": 1429.443,
-  "lookups_per_second": 5647.47,
+  "runtime_ms": 1299.761,
+  "lookups_per_second": 6154.98,
   "correctness_ok": 1
 }
 ```
