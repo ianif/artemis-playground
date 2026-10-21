@@ -42,3 +42,6 @@ Expect 21 passing tests and a benchmark around 4 seconds.
 There are **21 deliberate issues** across four categories. Full map in
 [ISSUES.md](ISSUES.md) — read that *after* you've let Maintain scan, so you can
 compare what it found against what is actually there.
+QA-MT 21 Oct 3018b round trip edit
+QA-MT 21 Oct 3018b TC-10a never published
+QA-MT 21 Oct 3018b TC-11 second sighting
