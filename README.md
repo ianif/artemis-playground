@@ -44,3 +44,4 @@ There are **21 deliberate issues** across four categories. Full map in
 compare what it found against what is actually there.
 QA-MT 21 Oct 3018b round trip edit
 QA-MT 21 Oct 3018b TC-10a never published
+QA-MT 21 Oct 3018b TC-11 second sighting
